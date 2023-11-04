@@ -6,6 +6,7 @@ export const getCategories = async (req, res) => {
   const categoryList = await categoryModel.find();
   return res.status(200).json({ message: "success", categoryList });
 };
+
 export const getSpecficCategories = async (req, res) => {
   const { id } = req.params;
   const category = await categoryModel.findById(id);
@@ -25,6 +26,7 @@ export const createCategory = async (req, res) => {
   const cat = await categoryModel.create({ name, slug: slugify(name), image: { secure_url, public_id } });
   return res.status(201).json({ message: "success", cat });
 };
+
 export const updateCategory = async (req, res) => {
   try {
     const category = await categoryModel.findById(req.params.id);
