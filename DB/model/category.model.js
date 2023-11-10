@@ -23,13 +23,20 @@ const categorySchema = new Schema(
     createdBy: {
       type: Types.ObjectId,
       ref: "user",
+      required: true,
     },
-    updatededBy: {
+    updatedBy: {
       type: Types.ObjectId,
       ref: "user",
+      required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+categorySchema.virtual("subcategory", {
+  localField: "_id",
+  foreignField: "categoryId",
+  ref: "Subcategory",
+});
 const categoryModel = mongoose.model.Category || model("Category", categorySchema);
 export default categoryModel;
