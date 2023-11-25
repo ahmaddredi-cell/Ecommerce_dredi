@@ -27,11 +27,11 @@ const subcategorySchema = new Schema(
     },
     createdBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
     updatededBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
   },
   { timestamps: true }

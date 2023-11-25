@@ -1,9 +1,10 @@
 import slugify from "slugify";
 import cloudinary from "../../services/cloudinary.js";
 import categoryModel from "../../../DB/model/category.model.js";
+import userModel from "../../../DB/model/user.model.js";
 
 export const getCategories = async (req, res) => {
-  const categoryList = await categoryModel.find().populate("subcategory");
+  const categoryList = await categoryModel.find().populate({ path: "createdBy updatedBy", select: "userName" }).populate("subcategory");
   return res.status(200).json({ message: "success", categoryList });
 };
 
@@ -15,7 +16,6 @@ export const getSpecficCategories = async (req, res) => {
 
 export const createCategory = async (req, res) => {
   const name = req.body.name.toLowerCase();
-
   if (await categoryModel.findOne({ name })) {
     return res.status(409).json({ message: "category name already exists" });
   }
@@ -23,6 +23,9 @@ export const createCategory = async (req, res) => {
   const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path, {
     folder: `${process.env.APP_NAME}/categories`,
   });
+
+  //
+
   const cat = await categoryModel.create({
     name,
     slug: slugify(name),
@@ -30,7 +33,8 @@ export const createCategory = async (req, res) => {
     createdBy: req.user._id,
     updatedBy: req.user._id,
   });
-  return res.status(201).json({ message: "success", cat });
+
+  return res.status(201).json({ message: "Success", cat });
 };
 
 export const updateCategory = async (req, res) => {
@@ -40,7 +44,7 @@ export const updateCategory = async (req, res) => {
       return res.status(404).json({ message: `Invaliad category id ${req.params.id}` });
     }
     if (req.body.name) {
-      if (await categoryModel.findOne({ name: req.body.params }).select("name")) {
+      if (await categoryModel.findOne({ name: req.body.name }).select("name")) {
         return res.status(409).json({ message: `catecogy ${req.body.name} already exists` });
       }
 

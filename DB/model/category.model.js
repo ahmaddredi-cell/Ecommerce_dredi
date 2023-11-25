@@ -4,12 +4,12 @@ const categorySchema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     slug: {
       type: String,
-      require: true,
+      required: true,
     },
     image: {
       type: Object,
@@ -22,12 +22,12 @@ const categorySchema = new Schema(
     },
     createdBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     updatedBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
   },
@@ -38,5 +38,6 @@ categorySchema.virtual("subcategory", {
   foreignField: "categoryId",
   ref: "Subcategory",
 });
+
 const categoryModel = mongoose.model.Category || model("Category", categorySchema);
 export default categoryModel;

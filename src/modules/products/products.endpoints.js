@@ -1,6 +1,6 @@
 import { roles } from "../../middleware/auth.js";
 
-export const endPointcategory = {
+export const endPointProduct = {
   create: [roles.Admin],
   getAlls: [],
   getActive: [roles.User],

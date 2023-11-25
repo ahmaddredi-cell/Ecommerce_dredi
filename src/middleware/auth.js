@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 import userModel from "../../DB/model/user.model.js";
 
+export const roles = {
+  Admin: "Admin",
+  User: "User",
+};
 export const auth = (accessRoles = []) => {
   return async (req, res, next) => {
     try {
@@ -21,7 +25,8 @@ export const auth = (accessRoles = []) => {
         return res.status(401).json({ message: "user not register" });
       }
 
-      if (!accessRoles.includes(user.role)) {
+      // access role is empty (false) the second part is skipped ,code inside the if statement is not executed.
+      if (accessRoles.length > 0 && !accessRoles.includes(user.role)) {
         return res.status(403).json({ message: "not auth user" });
       }
       req.user = user;

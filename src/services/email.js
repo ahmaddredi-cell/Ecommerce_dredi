@@ -5,13 +5,13 @@ export async function sendEmail(to, subject, html) {
     service: "gmail",
     auth: {
       // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-      user: "ahmad887drydi@gmail.com",
-      pass: "emei kkff scoo irco",
+      user: process.env.EMAILSENDER,
+      pass: process.env.PASSWORDSENDER,
     },
   });
 
   const info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <ahmad887drydi@gmail.com>', // sender address
+    from: `"Fred Foo 👻" <${process.env.EMAILSENDER}>`, // sender address
     to, // list of receivers
     subject, // Subject line
     // plain text body
