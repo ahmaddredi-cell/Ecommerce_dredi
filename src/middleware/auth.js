@@ -19,10 +19,15 @@ export const auth = (accessRoles = []) => {
         return res.status(401).json({ message: "Invaliad authorizatin" });
       }
 
-      const user = await userModel.findById(decoded.id).select("userName role");
+      const user = await userModel.findById(decoded.id).select("userName role changePasswordTime");
 
       if (!user) {
         return res.status(401).json({ message: "user not register" });
+      }
+
+      //getTime() convert datenow to server languge and we devide 1000 to convert sec to millesec and compare between change paww and iat
+      if (parseInt(user.changePasswordTime?.getTime() / 1000) > decoded.iat) {
+        return next(new Error(`expired token ,plz login`, { cause: 400 }));
       }
 
       // access role is empty (false) the second part is skipped ,code inside the if statement is not executed.

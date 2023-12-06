@@ -4,7 +4,7 @@ const couponSchema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     amount: {
@@ -14,10 +14,10 @@ const couponSchema = new Schema(
     usedBy: [
       {
         type: Types.ObjectId,
-        ref: "user",
+        ref: "User",
       },
     ],
-    expiredDate: Date,
+    expireDate: { type: Date, required: true },
     status: {
       type: String,
       default: "Active",
@@ -25,11 +25,11 @@ const couponSchema = new Schema(
     },
     createdBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
     updatededBy: {
       type: Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
     isDeleted: {
       type: Boolean,

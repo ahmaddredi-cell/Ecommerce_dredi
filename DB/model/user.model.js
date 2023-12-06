@@ -43,11 +43,18 @@ const userSchema = new Schema(
     role: {
       type: String,
       default: "User",
-      enum: ["User", "Admin", "superAdmin"],
+      enum: ["User", "Admin"],
     },
     sendCode: {
       type: String,
       default: null,
+    },
+    changePasswordTime: {
+      type: Date,
+    },
+    online: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
